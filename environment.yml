@@ -1,0 +1,9 @@
+name: surface_normal
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - pytorch
+  - torchvision
+  - imageio
+  - numpy
