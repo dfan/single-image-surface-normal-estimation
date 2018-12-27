@@ -16,11 +16,11 @@ class NormieNet(nn.Module):
     module_2 = Module2(module_3)
     module_1 = Module1(module_2)
     self.hourglass = nn.Sequential(
-                      nn.Conv2d(in_channels=3, out_channels=64, kernel_size=7, stride=1, padding=3),
-                      nn.BatchNorm2d(64),
+                      nn.Conv2d(in_channels=3, out_channels=128, kernel_size=7, stride=1, padding=3),
+                      nn.BatchNorm2d(128),
                       nn.ReLU(),
                       module_1,
-                      nn.Conv2d(in_channels=32, out_channels=3, kernel_size=3, stride=1, padding=1)
+                      nn.Conv2d(in_channels=64, out_channels=3, kernel_size=3, stride=1, padding=1)
                     )
 
   def forward(self, x):

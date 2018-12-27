@@ -3,7 +3,7 @@ PyTorch implementation of the hourglass architecture proposed in ["Single-Image 
 
 ## Data Format
 Training data: single 128x128 RGB image of the object, its binary mask (white pixel only if object is present in that pixel), and a RGB image of the surface normal (where the color channels represent the 3D vectors).  
-Validation: given a single 128x128 RGb image of the object and its binary mask, predict the surface normal orientation and output as a RGB image. Validation accuracy is calculated on the object's masked region, so not the background. There are 20,000 testing images and 2,000 testing images to output predictions for. Data can be downloaded [here](http://cos429-f18.cs.princeton.edu/surface-normal-prediction-website-class-project/cos429.tgz).
+Validation: given a single 128x128 RGb image of the object and its binary mask, predict the surface normal orientation and output as a RGB image. Validation accuracy is calculated on the object's masked region, so not the background. There are 20,000 training images and 2,000 testing images to output predictions for. Data can be downloaded [here](http://cos429-f18.cs.princeton.edu/surface-normal-prediction-website-class-project/cos429.tgz).
 
 **Sample input**:
 

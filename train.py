@@ -84,7 +84,7 @@ def train(finetune, finetune_epochs):
   learning_rate = 0.001
 
   train_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
-  test_params = {'batch_size': 50, 'shuffle': True, 'num_workers': 5}
+  test_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
 
   # Load Data
   train_set = NormalsDataset(is_train = True, transform=transforms.ToTensor())
@@ -98,7 +98,7 @@ def train(finetune, finetune_epochs):
   # Load existing model and do finetuning. Only on GPU
   if finetune:
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-5, momentum=0.9, nesterov=True)
-    train_params = {'batch_size': 50, 'shuffle': True, 'num_workers': 5}
+    train_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
     train_loader = data.DataLoader(train_set, **train_params)
     model.load_state_dict(torch.load(MODEL_DIR))
     model = model.to(device)
@@ -114,7 +114,7 @@ def train(finetune, finetune_epochs):
     if epoch == 17 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
       # Increase batch size during slow learning phase
-      train_params = {'batch_size': 50, 'shuffle': True, 'num_workers': 5}
+      train_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
       train_loader = data.DataLoader(train_set, **train_params)
     elif epoch == 27 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9, nesterov=True)
