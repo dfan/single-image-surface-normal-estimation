@@ -4,6 +4,7 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.utils.data as data
 from imageio import imread, imwrite
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
@@ -80,11 +81,11 @@ TRAIN_PREDS_DIR = 'train_prediction' # where to put predictions on training set 
 
 def train(finetune, finetune_epochs):
   # Hyper parameters
-  num_epochs = 75
+  num_epochs = 40
   learning_rate = 0.001
 
   train_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
-  test_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
+  test_params = {'batch_size': 40, 'shuffle': True, 'num_workers': 5}
 
   # Load Data
   train_set = NormalsDataset(is_train = True, transform=transforms.ToTensor())
@@ -111,16 +112,17 @@ def train(finetune, finetune_epochs):
   accuracy = []
   for epoch in range(num_epochs):
     # Assuming batch size of 25 and learning rate 0.001 with Adam prior
-    if epoch == 17 and not finetune:
+    if epoch == 20 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9, nesterov=True)
       # Increase batch size during slow learning phase
-      train_params = {'batch_size': 25, 'shuffle': True, 'num_workers': 5}
+      train_params = {'batch_size': 40, 'shuffle': True, 'num_workers': 5}
       train_loader = data.DataLoader(train_set, **train_params)
-    elif epoch == 27 and not finetune:
+      total_steps = len(train_loader)
+    elif epoch == 30 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9, nesterov=True)
-    elif epoch == 47 and not finetune:
+    elif epoch == 40 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=1e-5, momentum=0.9, nesterov=True)
-    elif epoch == 67 and not finetune:
+    elif epoch == 50 and not finetune:
       optimizer = torch.optim.SGD(model.parameters(), lr=1e-6, momentum=0.9, nesterov=True)
     # length of train_loader = size of dataset / batch size, or # of iterations to equal 1 epoch
     for i, (_, images, masks, normals) in enumerate(train_loader):
@@ -156,6 +158,14 @@ def train(finetune, finetune_epochs):
   print('Final training set accuracy: {}'.format(final_acc))
   print('Making predictions on testing set:')
   make_predictions(model, True, device, test_loader)
+
+  # Plot loss and accuracy curves
+  plt.plot(iterations, losses, label='Loss')
+  plt.legend()
+  plt.xlabel("Iterations")
+  plt.ylabel("Training Loss")
+  plt.savefig('figures/loss_plot.png')
+  plt.close()
   
   # Save the final model
   model.cuda()

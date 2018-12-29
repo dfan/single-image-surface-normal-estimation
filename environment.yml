@@ -6,4 +6,5 @@ dependencies:
   - pytorch
   - torchvision
   - imageio
+  - matplotlib
   - numpy
