@@ -78,6 +78,7 @@ def evaluate(model, device, data_loader):
 MODEL_DIR = 'model.ckpt'
 TEST_PREDS_DIR = 'test_prediction'   # where to put predictions on testing set
 TRAIN_PREDS_DIR = 'train_prediction' # where to put predictions on training set (for debugging)
+FIGURES_DIR = 'figures'
 
 def train(finetune, finetune_epochs):
   # Hyper parameters
@@ -164,7 +165,7 @@ def train(finetune, finetune_epochs):
   plt.legend()
   plt.xlabel("Iterations")
   plt.ylabel("Training Loss")
-  plt.savefig('figures/loss_plot.png')
+  plt.savefig(FIGURES_DIR + '/loss_plot.png')
   plt.close()
   
   # Save the final model
@@ -211,6 +212,8 @@ def from_existing_model():
   make_predictions(model, True, device, test_loader)
 
 if __name__ == '__main__':
+  if not os.path.exists(FIGURES_DIR):
+    os.makedirs(FIGURES_DIR)
   if not os.path.exists(TEST_PREDS_DIR):
     os.makedirs(TEST_PREDS_DIR)
   if not os.path.exists(TRAIN_PREDS_DIR):
